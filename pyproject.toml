@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robotaxi-fleet-sandbox"
+version = "0.1.0"
+description = "Robotaxi 车队规模情景分析：透明、可复算、可交互。"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Zekai Zhou" }]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+robotaxi = "robotaxi_fleet.cli:main"
+
+[tool.setuptools]
+packages = ["robotaxi_fleet"]

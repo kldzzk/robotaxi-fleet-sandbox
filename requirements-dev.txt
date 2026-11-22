@@ -1,0 +1,4 @@
+# 仅开发/构建需要；核心 CLI 无第三方依赖
+pytest>=8.0
+pandas>=2.0
+openpyxl>=3.1

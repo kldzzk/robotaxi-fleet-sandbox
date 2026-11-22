@@ -1,0 +1,44 @@
+{
+  "city": "广州",
+  "city_key": "guangzhou",
+  "net_substitution_ratio": 1.0,
+  "assumptions": {
+    "base_daily_orders": 1389454.0,
+    "traditional_fleet": 103305.0,
+    "traditional_daily_orders_per_vehicle": 13.45,
+    "robotaxi_daily_orders_per_vehicle": 13.45,
+    "substitution_ratio": 0.27
+  },
+  "scenarios": [
+    {
+      "pressure": 0.05,
+      "effective_pressure": 0.05,
+      "substituted_orders": 69472.7,
+      "robotaxi_needed": 5166,
+      "traditional_orders_after": 1319981.3,
+      "traditional_fleet_after": 98140,
+      "traditional_reduction_pct": 5.0,
+      "robotaxi_to_traditional_ratio": 0.053
+    },
+    {
+      "pressure": 0.1,
+      "effective_pressure": 0.1,
+      "substituted_orders": 138945.4,
+      "robotaxi_needed": 10331,
+      "traditional_orders_after": 1250508.6,
+      "traditional_fleet_after": 92975,
+      "traditional_reduction_pct": 10.0,
+      "robotaxi_to_traditional_ratio": 0.111
+    },
+    {
+      "pressure": 0.2,
+      "effective_pressure": 0.2,
+      "substituted_orders": 277890.8,
+      "robotaxi_needed": 20662,
+      "traditional_orders_after": 1111563.2,
+      "traditional_fleet_after": 82644,
+      "traditional_reduction_pct": 20.0,
+      "robotaxi_to_traditional_ratio": 0.25
+    }
+  ]
+}
