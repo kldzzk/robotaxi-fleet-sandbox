@@ -20,3 +20,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Smoke-test CLI
         run: python -m robotaxi_fleet analyze --city paper_baseline --json > /dev/null
+      - name: Web model tests
+        run: node tests/web_model.test.js

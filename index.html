@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Robotaxi 车队规模情景沙盘</title>
+  <meta name="description" content="透明、可复算的 Robotaxi 车队规模情景沙盘：测算城市需要多少无人车，以及传统车队在订单替代下的萎缩幅度。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231d4ed8'/%3E%3Ctext x='50' y='69' font-size='58' text-anchor='middle' fill='white' font-family='Arial'%3ER%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="web/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div>
+        <h1>Robotaxi 车队规模情景沙盘</h1>
+        <p class="subtitle">调整订单压力与替代系数，测算城市需要多少无人车，以及传统车队会被挤压多少。</p>
+      </div>
+      <a class="gh-link" href="https://github.com/kldzzk/robotaxi-fleet-sandbox" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <aside class="panel controls">
+      <label class="field">
+        <span>城市预设</span>
+        <select id="citySelect" aria-label="城市预设"></select>
+      </label>
+      <p class="city-meta" id="cityMeta">加载中…</p>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>日均订单</span>
+          <input id="baseOrders" type="number" min="1" step="1000" inputmode="numeric" />
+        </label>
+        <label class="field">
+          <span>传统车队（辆）</span>
+          <input id="fleet" type="number" min="1" step="100" inputmode="numeric" />
+        </label>
+        <label class="field">
+          <span>传统单车日均订单</span>
+          <input id="tradPer" type="number" min="0.1" step="0.1" inputmode="decimal" />
+        </label>
+        <label class="field">
+          <span>Robotaxi 单车日均订单</span>
+          <input id="robotPer" type="number" min="0.1" step="0.1" inputmode="decimal" />
+        </label>
+      </div>
+
+      <label class="field range-field">
+        <span>净替代系数 <b id="netRatioValue">1.00</b></span>
+        <input id="netRatio" type="range" min="0.1" max="1" step="0.01" value="1" />
+        <span class="range-hint">1.00 = 直接复现论文口径；调低可看“仅按比例折算”的视图</span>
+      </label>
+
+      <div class="actions">
+        <button id="resetBtn" class="btn ghost" type="button">恢复预设</button>
+        <button id="memoBtn" class="btn primary" type="button">生成文字摘要</button>
+        <button id="jsonBtn" class="btn ghost" type="button">下载 JSON</button>
+      </div>
+      <p class="hint">数字随输入实时计算；切换城市会重置为该城预设。</p>
+    </aside>
+
+    <section class="content">
+      <div class="kpis" id="kpis"></div>
+
+      <div class="panel chart-card">
+        <div class="card-head">
+          <h2>需新增 Robotaxi</h2>
+          <span class="muted">按情景压力</span>
+        </div>
+        <div id="barChart" class="chart" role="img" aria-label="不同情景压力下需新增的 Robotaxi 数量"></div>
+      </div>
+
+      <div class="panel chart-card">
+        <div class="card-head">
+          <h2>敏感性</h2>
+          <span class="muted">压力 × 净替代系数 → 需新增 Robotaxi</span>
+        </div>
+        <div id="heatmap" class="heatmap"></div>
+      </div>
+
+      <div class="panel">
+        <h2>情景明细</h2>
+        <div class="table-wrap">
+          <table id="scenarioTable"></table>
+        </div>
+      </div>
+
+      <div class="panel memo-panel" id="memoPanel" hidden>
+        <div class="card-head">
+          <h2>文字摘要</h2>
+          <button id="copyBtn" class="btn ghost" type="button">复制</button>
+        </div>
+        <pre id="memoText"></pre>
+      </div>
+
+      <div class="panel">
+        <h2>数据与假设</h2>
+        <dl id="assumptions" class="assumptions"></dl>
+      </div>
+
+      <div class="panel notes">
+        <h2>假设与局限</h2>
+        <ul>
+          <li>需求并非线性：低价或供给增加可能诱导新增出行，实际替代量可能偏离。</li>
+          <li>单车日均订单、利用率与运营半径会随城市与政策变化，需用本地数据校准。</li>
+          <li>政策许可、事故责任、充电与维护成本未在模型中内生。</li>
+          <li>订单替代比例 0.27 为论文校准参数，默认视为已内化进情景压力。</li>
+        </ul>
+        <p class="disclaimer">本工具是情景计算器，不是预测器，也不构成投资或入局建议。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>robotaxi-fleet-sandbox</span>
+      <span class="sep">·</span>
+      <span>确定性计算</span>
+      <span class="sep">·</span>
+      <a href="https://github.com/kldzzk/robotaxi-fleet-sandbox" target="_blank" rel="noopener">源码</a>
+    </div>
+  </footer>
+
+  <script src="web/model.js"></script>
+  <script src="web/app.js"></script>
+</body>
+</html>

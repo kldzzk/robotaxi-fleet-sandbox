@@ -23,6 +23,7 @@ htmlcov/
 node_modules/
 .wrangler/
 dist-web/
+_site/
 
 # Editor / OS
 .vscode/

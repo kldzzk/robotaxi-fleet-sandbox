@@ -5,15 +5,25 @@
 
 > 这是一个**情景计算器**，不是预测器，也不构成投资建议。所有结论都依赖页面中列出的假设。
 
+**在线体验**：https://kldzzk.github.io/robotaxi-fleet-sandbox/
+
+本地预览：
+
+```bash
+# 在仓库根目录
+python -m http.server 8000
+# 浏览器打开 http://localhost:8000/
+```
+
 ## 当前进度
 
 - [x] 确定性核心模型（纯标准库，可复现论文口径）
 - [x] 命令行工具（`list / analyze / score`）
-- [x] 单元测试（17 项，含论文数字复现）
-- [ ] 静态交互网页 + 图表（下一步）
+- [x] 单元测试（20 项，含论文数字复现）
+- [x] 静态交互网页（城市选择、滑块、柱状图、敏感性热力图、文字摘要）
+- [x] GitHub Pages 部署 workflow
 - [ ] Cloudflare Worker + DeepSeek 生成分析简报
 - [ ] Claude Code Skill 封装
-- [ ] GitHub Pages 部署
 
 ## 快速开始
 
@@ -29,7 +39,7 @@ python -m robotaxi_fleet analyze --city guangzhou --pressures 0.05 0.1 0.2 --jso
 python -m robotaxi_fleet analyze --city paper_baseline --score --out report.md
 
 # 只看入局窗口评分
-python -m robotaxi_fleet score --city demo_large
+python -m robotaxi_fleet score --city guangzhou
 
 # 运行测试
 python -m unittest discover -s tests -v
@@ -91,11 +101,14 @@ robotaxi-fleet-sandbox/
 │  ├─ presets.py       # 预设加载
 │  ├─ report.py        # Markdown 报告
 │  └─ cli.py           # 命令行
-├─ data/cities.json    # 城市预设（示例/复现参数）
+├─ web/                # 静态网页（model.js / app.js / styles.css）
+├─ index.html          # 网页入口
+├─ data/cities.json    # 城市预设（聚合指标）
+├─ scripts/            # 数据聚合脚本
 ├─ tests/              # 单元测试
 ├─ examples/           # 示例输出
 ├─ docs/               # 方法论与假设
-└─ .github/workflows/  # CI
+└─ .github/workflows/  # CI + Pages
 ```
 
 ## 数据说明
