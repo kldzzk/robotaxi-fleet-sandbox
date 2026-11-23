@@ -413,7 +413,12 @@
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
-      if (data && data.memo) $("memoText").textContent = data.memo;
+      if (data && data.memo) {
+        $("memoText").textContent = String(data.memo)
+          .replace(/\*\*/g, "")
+          .replace(/·/g, "，")
+          .replace(/，{2,}/g, "，");
+      }
       if (data && data.fallback) {
         status.textContent = "AI 暂不可用，已回退本地摘要";
       } else {
