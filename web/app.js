@@ -197,7 +197,7 @@
       );
     }
 
-    const BAR_COLORS = ["#5F7D54", "#C4664A", "#C39A2B"];
+    const BAR_COLORS = ["#6B9A80", "#D96A4A", "#D4A62A"];
     const band = plotW / results.length;
     results.forEach(function (r, i) {
       const bw = band * 0.5;
@@ -205,9 +205,9 @@
       const bh = plotH * (r.robotaxi_needed / yMax);
       const y = pad.t + plotH - bh;
       parts.push(
-        '<rect x="' + x + '" y="' + y + '" width="' + bw + '" height="' + bh +
+        '<rect class="bar" x="' + x + '" y="' + y + '" width="' + bw + '" height="' + bh +
           '" rx="2" fill="' + BAR_COLORS[i % BAR_COLORS.length] +
-          '" stroke="#21242A" stroke-width="1"/>'
+          '" stroke="#1B2A3A" stroke-width="1"/>'
       );
       parts.push(
         '<text class="bar-val" x="' + (x + bw / 2) + '" y="' + (y - 8) + '" text-anchor="middle">' +
@@ -221,7 +221,7 @@
 
     parts.push(
       '<line x1="' + pad.l + '" y1="' + (pad.t + plotH) + '" x2="' + (w - pad.r) +
-        '" y2="' + (pad.t + plotH) + '" stroke="#21242A" stroke-width="1.5"/>'
+        '" y2="' + (pad.t + plotH) + '" stroke="#1B2A3A" stroke-width="1.5"/>'
     );
 
     $("barChart").innerHTML =
@@ -232,11 +232,11 @@
 
   function colorFor(t) {
     const stops = [
-      [243, 235, 221], // paper
+      [243, 238, 227], // card cream
       [240, 226, 184], // mustard soft
-      [195, 154, 43], // mustard
-      [196, 102, 74], // coral
-      [43, 43, 43], // ink
+      [212, 166, 42], // mustard
+      [217, 106, 74], // coral
+      [11, 27, 51], // navy
     ];
     t = Math.max(0, Math.min(1, t));
     const seg = (stops.length - 1) * t;
@@ -275,10 +275,10 @@
       row.forEach(function (v) {
         const t = v / max;
         const color = colorFor(t);
-        const fg = t > 0.55 ? "#FFFCF4" : "#21242A";
+        const fg = t > 0.55 ? "#F1EBDD" : "#1B2A3A";
         html +=
           '<td style="background:' + color + ";color:" + fg +
-          ';border:1px solid rgba(33,36,42,0.12)" title="需新增 ' + fmtInt(v) + ' 辆">' +
+          ';border:1px solid rgba(27,42,58,0.12)" title="需新增 ' + fmtInt(v) + ' 辆">' +
           compact(v) + "</td>";
       });
       html += "</tr>";
@@ -287,9 +287,9 @@
     html +=
       '<div class="heatmap-legend"><span>少</span>' +
       '<span class="legend-swatches">' +
-      '<i style="background:#F3EBDD"></i><i style="background:#F0E2B8"></i>' +
-      '<i style="background:#C39A2B"></i><i style="background:#C4664A"></i>' +
-      '<i style="background:#2B2B2B"></i>' +
+      '<i style="background:#F3EEE3"></i><i style="background:#F0E2B8"></i>' +
+      '<i style="background:#D4A62A"></i><i style="background:#D96A4A"></i>' +
+      '<i style="background:#0B1B33"></i>' +
       "</span><span>多</span>" +
       '<span class="muted">（当前净替代系数 ' + netRatio.toFixed(2) + "）</span></div>";
     $("heatmap").innerHTML = html;
