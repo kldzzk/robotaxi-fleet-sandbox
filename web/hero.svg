@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" fill="none" role="img" aria-label="城市路网与 Robotaxi 路线示意图">
+  <g stroke="#D8D1C1" stroke-width="1" opacity="0.55">
+    <path d="M20 40H460M20 100H460M20 160H460M20 220H460M20 280H460"/>
+    <path d="M40 20V300M100 20V300M160 20V300M220 20V300M280 20V300M340 20V300M400 20V300M460 20V300"/>
+  </g>
+
+  <g stroke="#2B2B2B" stroke-width="1.4" opacity="0.8">
+    <rect x="52" y="52" width="78" height="46" rx="2" fill="#FBF7EE"/>
+    <rect x="166" y="44" width="62" height="66" rx="2"/>
+    <rect x="258" y="58" width="104" height="42" rx="2" fill="#FBF7EE"/>
+    <rect x="86" y="136" width="70" height="58" rx="2"/>
+    <rect x="190" y="130" width="92" height="54" rx="2" fill="#FBF7EE"/>
+    <rect x="318" y="126" width="64" height="76" rx="2"/>
+    <rect x="58" y="224" width="104" height="40" rx="2" fill="#FBF7EE"/>
+    <rect x="206" y="216" width="70" height="48" rx="2"/>
+    <rect x="318" y="232" width="86" height="34" rx="2"/>
+  </g>
+
+  <path d="M28 262 C 88 218, 118 178, 188 170 S 300 122, 372 92"
+        stroke="#C4664A" stroke-width="2.4" stroke-dasharray="7 7" stroke-linecap="round"/>
+  <path d="M44 76 C 112 100, 152 124, 232 148 S 338 206, 446 214"
+        stroke="#4F7A6B" stroke-width="2" stroke-linecap="round"/>
+
+  <g fill="#FBF7EE" stroke="#2B2B2B" stroke-width="1.4">
+    <circle cx="188" cy="170" r="5"/>
+    <circle cx="372" cy="92" r="5"/>
+    <circle cx="232" cy="148" r="5"/>
+    <circle cx="446" cy="214" r="5"/>
+  </g>
+
+  <g>
+    <rect x="300" y="196" width="48" height="22" rx="5" fill="#C4664A" stroke="#2B2B2B" stroke-width="1.4"/>
+    <rect x="308" y="188" width="30" height="12" rx="4" fill="#FBF7EE" stroke="#2B2B2B" stroke-width="1.4"/>
+    <circle cx="310" cy="220" r="4" fill="#2B2B2B"/>
+    <circle cx="338" cy="220" r="4" fill="#2B2B2B"/>
+    <circle cx="338" cy="192" r="2.2" fill="#C39A2B"/>
+  </g>
+
+  <g font-family="Consolas, 'Cascadia Mono', monospace" font-size="9" fill="#6E6A60" letter-spacing="1.2">
+    <text x="56" y="44">CBD</text>
+    <text x="262" y="50">ROUTE 01</text>
+    <text x="320" y="256">FLEET</text>
+    <text x="28" y="300">LAT 30.59 / LON 114.30</text>
+  </g>
+
+  <g stroke="#2B2B2B" stroke-width="1.4" stroke-linecap="round">
+    <path d="M424 42V74M414 52L424 42L434 52"/>
+  </g>
+  <text x="414" y="28" font-family="Consolas, monospace" font-size="9" fill="#6E6A60" letter-spacing="1">N</text>
+
+  <g font-family="Consolas, monospace" font-size="8.5" fill="#6E6A60" letter-spacing="0.8">
+    <path d="M28 18h18" stroke="#C4664A" stroke-width="2.4" stroke-dasharray="5 5"/>
+    <text x="52" y="21">robotaxi route</text>
+    <path d="M152 18h18" stroke="#4F7A6B" stroke-width="2"/>
+    <text x="176" y="21">order flow</text>
+  </g>
+</svg>
