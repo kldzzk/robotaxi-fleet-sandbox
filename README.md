@@ -81,6 +81,9 @@ python -m unittest discover -s tests -v
 网页默认使用本地文字摘要。配置 `worker/` 后可启用 DeepSeek 简报：
 数字仍由代码计算，LLM 只负责改写，输出会做数字回查，失败自动回退。
 
+已部署地址：https://robotaxi-memo.kldzzk.workers.dev
+（若网络屏蔽 `workers.dev`，网页会自动回退本地摘要，不影响其他功能。）
+
 ```bash
 cd worker
 npx wrangler login
