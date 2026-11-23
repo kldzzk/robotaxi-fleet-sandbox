@@ -89,7 +89,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   display: inline-block;
 }
 .eyebrow .gh-link {
-  margin-left: auto;
+  margin-left: 0;
   color: var(--cream);
   border: 1px solid #3a5a7a;
   border-radius: 2px;
@@ -98,6 +98,25 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   letter-spacing: 0.08em;
 }
 .eyebrow .gh-link:hover { background: var(--cream); color: var(--navy); text-decoration: none; }
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-toggle {
+  background: transparent;
+  color: var(--cream);
+  border: 1px solid #3a5a7a;
+  border-radius: 2px;
+  padding: 5px 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.theme-toggle:hover { background: var(--cream); color: var(--navy); }
 
 .site-header h1 {
   margin: 14px 0 10px;
@@ -141,6 +160,9 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   height: auto;
   flex: 0 0 auto;
 }
+.hero-day { display: none; }
+html[data-theme="day"] .hero-night { display: none; }
+html[data-theme="day"] .hero-day { display: block; }
 
 /* ---------- Layout ---------- */
 .layout {
@@ -439,6 +461,15 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   fill: var(--muted);
 }
 .chart .grid-line { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; }
+@keyframes bar-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.chart .bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: bar-grow 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
 
 /* ---------- Heatmap ---------- */
 .heatmap { overflow-x: auto; }
@@ -624,9 +655,49 @@ table#scenarioTable { width: 100%; border-collapse: collapse; font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kpis, .panel { animation: none; }
+  .kpis, .panel, .chart .bar { animation: none; }
   *, *::before, *::after { transition: none !important; }
 }
+
+/* ---------- Day theme ---------- */
+html[data-theme="day"] {
+  --navy: #f4efe4;
+  --navy-2: #fffcf4;
+  --navy-line: #b9b1a0;
+  --cream: #21242a;
+  --paper: #f4efe4;
+  --paper-2: #fffcf4;
+  --ink: #21242a;
+  --ink-soft: #3a3f47;
+  --muted: #6e6a60;
+  --line: #d8d1c1;
+  --line-strong: #b9b1a0;
+  --coral: #c4664a;
+  --coral-soft: #e8c9bc;
+  --sage: #5f7d54;
+  --sage-soft: #dce5cf;
+  --mustard: #c39a2b;
+  --mustard-soft: #f0e2b8;
+  --shadow: 4px 4px 0 rgba(33, 36, 42, 0.09);
+  --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='7'%3E%3Cpath d='M1 4 C 10 1, 18 6, 27 3 S 40 1, 45 4' stroke='%23C4664A' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+html[data-theme="day"] body {
+  background-color: #f4efe4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M0 0H26M0 26H26M0 0V26M26 0V26' stroke='%23D8D1C1' stroke-width='0.6' fill='none' opacity='0.5'/%3E%3C/svg%3E");
+}
+html[data-theme="day"] .eyebrow { color: var(--muted); }
+html[data-theme="day"] .gh-link,
+html[data-theme="day"] .theme-toggle { border-color: var(--line-strong); }
+html[data-theme="day"] .subtitle { color: var(--muted); }
+html[data-theme="day"] .chip {
+  color: var(--ink-soft);
+  border-color: var(--line-strong);
+  background: rgba(255, 252, 244, 0.7);
+}
+html[data-theme="day"] .controls { box-shadow: 5px 5px 0 var(--coral-soft); }
+html[data-theme="day"] .site-footer { color: var(--muted); }
+html[data-theme="day"] .panel:hover { box-shadow: 8px 8px 0 rgba(33, 36, 42, 0.16); }
+html[data-theme="day"] .controls:hover { box-shadow: 8px 8px 0 var(--coral-soft); }
 
 /* ---------- Responsive ---------- */
 @media (max-height: 860px) and (min-width: 901px) {
@@ -640,6 +711,7 @@ table#scenarioTable { width: 100%; border-collapse: collapse; font-size: 13px; }
   .header-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
   .hero-art { width: min(420px, 82vw); }
   .eyebrow .gh-link { margin-left: 0; }
+  .header-actions { margin-left: 0; }
 }
 @media (max-width: 560px) {
   .wrap { width: calc(100% - 24px); }

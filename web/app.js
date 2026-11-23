@@ -9,7 +9,7 @@
   };
 
   const $ = (id) => document.getElementById(id);
-  const state = { presets: [], current: null, last: null };
+  const state = { presets: [], current: null, last: null, lastKpiNumbers: [] };
 
   /* ---------- helpers ---------- */
   function fmtInt(n) {
@@ -54,8 +54,57 @@
     box.textContent = msg;
   }
 
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem("robotaxi-theme", theme);
+    } catch (e) {}
+    const btn = $("themeToggle");
+    if (btn) {
+      btn.textContent = theme === "day" ? "夜间" : "日间";
+      btn.setAttribute(
+        "aria-label",
+        theme === "day" ? "切换到夜间主题" : "切换到日间主题"
+      );
+    }
+  }
+
+  function initTheme() {
+    const root = document.documentElement;
+    let theme = root.dataset.theme;
+    if (theme !== "day" && theme !== "night") theme = "night";
+    applyTheme(theme);
+    const btn = $("themeToggle");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        applyTheme(root.dataset.theme === "day" ? "night" : "day");
+      });
+    }
+  }
+
+  function animateNumber(el, from, to, duration) {
+    const reduce =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || from === to) {
+      el.textContent = fmtInt(to);
+      return;
+    }
+    const start = performance.now();
+    const dur = duration || 420;
+    function frame(now) {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = fmtInt(from + (to - from) * eased);
+      if (t < 1) requestAnimationFrame(frame);
+      else el.textContent = fmtInt(to);
+    }
+    requestAnimationFrame(frame);
+  }
+
   /* ---------- init ---------- */
   async function init() {
+    initTheme();
     try {
       const res = await fetch("data/cities.json", { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -166,13 +215,25 @@
           '<div class="' + cls + '">' +
           '<div class="kpi-pressure"><svg class="kpi-car" aria-hidden="true"><use href="#icon-robotaxi"></use></svg> 情景压力 ' +
             fmtPct(r.pressure * 100) + "</div>" +
-          '<div class="kpi-value">' + fmtInt(r.robotaxi_needed) + "<small>辆</small></div>" +
+          '<div class="kpi-value"><span class="kpi-num">0</span><small>辆</small></div>' +
           '<div class="kpi-sub">传统车队剩余 <b>' + fmtInt(r.traditional_fleet_after) + "</b> 辆</div>" +
           '<div class="kpi-sub">传统车队降幅 <b>' + fmtPct(r.traditional_reduction_pct) + "</b></div>" +
           "</div>"
         );
       })
       .join("");
+
+    const nums = $("kpis").querySelectorAll(".kpi-num");
+    const prev = state.lastKpiNumbers || [];
+    const targets = results.map(function (r) {
+      return r.robotaxi_needed;
+    });
+    nums.forEach(function (el, i) {
+      const to = targets[i];
+      const from = Number.isFinite(prev[i]) ? prev[i] : 0;
+      animateNumber(el, from, to);
+    });
+    state.lastKpiNumbers = targets;
   }
 
   function renderBar(results) {

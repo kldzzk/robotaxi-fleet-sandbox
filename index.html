@@ -6,6 +6,16 @@
   <title>Robotaxi 车队规模情景沙盘</title>
   <meta name="description" content="透明、可复算的 Robotaxi 车队规模情景沙盘：测算城市需要多少无人车，以及传统车队在订单替代下的萎缩幅度。" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2321242A'/%3E%3Ctext x='50' y='69' font-size='58' text-anchor='middle' fill='%23C4664A' font-family='Arial'%3ER%3C/text%3E%3C/svg%3E" />
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("robotaxi-theme");
+        document.documentElement.dataset.theme = saved === "day" ? "day" : "night";
+      } catch (e) {
+        document.documentElement.dataset.theme = "night";
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="web/styles.css" />
 </head>
 <body>
@@ -34,7 +44,10 @@
           <span>FIELD NOTES / 003</span>
           <span class="dot"></span>
           <span>ROBOTAXI</span>
-          <a class="gh-link" href="https://github.com/kldzzk/robotaxi-fleet-sandbox" target="_blank" rel="noopener">GitHub ↗</a>
+          <div class="header-actions">
+            <button id="themeToggle" class="theme-toggle" type="button">日间</button>
+            <a class="gh-link" href="https://github.com/kldzzk/robotaxi-fleet-sandbox" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
         </div>
         <h1>Robotaxi 车队规模<span class="hl">情景沙盘</span></h1>
         <p class="subtitle">调整订单压力与替代系数，测算城市需要多少无人车，以及传统车队会被挤压多少。</p>
@@ -44,7 +57,8 @@
           <span class="chip">确定性计算</span>
         </div>
       </div>
-      <img class="hero-art" src="web/hero.svg" alt="城市路网与 Robotaxi 路线示意图" />
+      <img class="hero-art hero-night" src="web/hero.svg" alt="城市路网与 Robotaxi 路线示意图" />
+      <img class="hero-art hero-day" src="web/hero-day.svg" alt="城市路网与 Robotaxi 路线示意图" />
     </div>
   </header>
 
@@ -69,7 +83,7 @@
 
       <div class="route-strip" aria-hidden="true">
         <svg viewBox="0 0 280 18" preserveAspectRatio="none">
-          <path d="M2 12 C 60 4, 120 16, 180 8 S 250 4, 276 10" stroke="#C4664A" stroke-width="1.5" stroke-dasharray="5 5" fill="none" stroke-linecap="round"/>
+          <path d="M2 12 C 60 4, 120 16, 180 8 S 250 4, 276 10" stroke="#D96A4A" stroke-width="1.5" stroke-dasharray="5 5" fill="none" stroke-linecap="round"/>
         </svg>
         <svg class="route-car"><use href="#icon-robotaxi"></use></svg>
       </div>
@@ -107,9 +121,9 @@
       <p class="hint">数字随输入实时计算；切换城市会重置为该城预设。</p>
 
       <svg class="console-bg" viewBox="0 0 300 170" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M-10 140 C 50 110, 100 135, 150 95 S 250 50, 310 65" stroke="#C4664A" stroke-width="1.2" stroke-dasharray="4 6" fill="none"/>
-        <circle cx="150" cy="95" r="2.5" fill="#C4664A"/>
-        <circle cx="310" cy="65" r="2.5" fill="#C4664A"/>
+        <path d="M-10 140 C 50 110, 100 135, 150 95 S 250 50, 310 65" stroke="#D96A4A" stroke-width="1.2" stroke-dasharray="4 6" fill="none"/>
+        <circle cx="150" cy="95" r="2.5" fill="#D96A4A"/>
+        <circle cx="310" cy="65" r="2.5" fill="#D96A4A"/>
       </svg>
     </aside>
 
