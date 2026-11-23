@@ -17,6 +17,8 @@ htmlcov/
 .env
 .env.*
 !.env.example
+.dev.vars
+.cf_token
 *.key
 
 # Node (web / worker, 后续阶段)

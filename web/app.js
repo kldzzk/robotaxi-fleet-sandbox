@@ -27,6 +27,18 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
+  function apiBase() {
+    let override = "";
+    try {
+      override = new URLSearchParams(window.location.search).get("api") || "";
+    } catch (e) {}
+    const base =
+      override ||
+      (window.ROBOTAXI_CONFIG && window.ROBOTAXI_CONFIG.apiBase) ||
+      "";
+    return String(base).replace(/\/$/, "");
+  }
+
   function setError(msg) {
     const content = document.querySelector(".content");
     let box = content.querySelector(".error-box");
@@ -343,11 +355,63 @@
     return lines.join("\n");
   }
 
-  function renderMemo() {
+  function payloadForApi() {
+    const s = state.last;
+    return {
+      city: s.preset.name,
+      city_key: s.preset.key,
+      inputs: {
+        base_daily_orders: s.inputs.base_daily_orders,
+        traditional_fleet: s.inputs.traditional_fleet,
+        traditional_daily_orders_per_vehicle:
+          s.inputs.traditional_daily_orders_per_vehicle,
+        robotaxi_daily_orders_per_vehicle:
+          s.inputs.robotaxi_daily_orders_per_vehicle,
+        as_of: s.preset.as_of || "",
+        note: s.preset.note || "",
+      },
+      net_substitution_ratio: s.netRatio,
+      scenarios: s.results,
+    };
+  }
+
+  async function renderMemo() {
     if (!state.last) return;
-    $("memoText").textContent = buildMemo();
+    const draft = buildMemo();
+    $("memoText").textContent = draft;
     $("memoPanel").hidden = false;
     $("memoPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+    const status = $("memoStatus");
+    const base = apiBase();
+
+    if (!base) {
+      status.textContent = "本地摘要（配置 Worker 后可启用 AI 增强）";
+      return;
+    }
+
+    const btn = $("memoBtn");
+    btn.disabled = true;
+    status.textContent = "AI 生成中…";
+    try {
+      const res = await fetch(base + "/api/memo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payloadForApi()),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (data && data.memo) $("memoText").textContent = data.memo;
+      if (data && data.fallback) {
+        status.textContent = "AI 暂不可用，已回退本地摘要";
+      } else {
+        status.textContent = "AI 简报 · " + (data.model || "DeepSeek");
+      }
+    } catch (err) {
+      status.textContent = "AI 服务不可用，已回退本地摘要";
+    } finally {
+      btn.disabled = false;
+    }
   }
 
   function copyMemo() {

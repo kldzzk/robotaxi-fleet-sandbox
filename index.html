@@ -89,7 +89,10 @@
       <div class="panel memo-panel" id="memoPanel" hidden>
         <div class="card-head">
           <h2>文字摘要</h2>
-          <button id="copyBtn" class="btn ghost" type="button">复制</button>
+          <div class="memo-actions">
+            <span id="memoStatus" class="memo-status"></span>
+            <button id="copyBtn" class="btn ghost" type="button">复制</button>
+          </div>
         </div>
         <pre id="memoText"></pre>
       </div>
@@ -122,6 +125,7 @@
     </div>
   </footer>
 
+  <script src="web/config.js"></script>
   <script src="web/model.js"></script>
   <script src="web/app.js"></script>
 </body>

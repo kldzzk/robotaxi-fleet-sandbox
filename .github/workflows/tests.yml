@@ -22,3 +22,5 @@ jobs:
         run: python -m robotaxi_fleet analyze --city paper_baseline --json > /dev/null
       - name: Web model tests
         run: node tests/web_model.test.js
+      - name: Worker memo tests
+        run: node worker/test/memo.test.js

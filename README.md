@@ -21,9 +21,9 @@ python -m http.server 8000
 - [x] 命令行工具（`list / analyze / score`）
 - [x] 单元测试（20 项，含论文数字复现）
 - [x] 静态交互网页（城市选择、滑块、柱状图、敏感性热力图、文字摘要）
-- [x] GitHub Pages 部署 workflow
-- [ ] Cloudflare Worker + DeepSeek 生成分析简报
-- [ ] Claude Code Skill 封装
+- [x] GitHub Pages 部署 workflow（线上可访问）
+- [x] Cloudflare Worker + DeepSeek 代理（代码与测试就绪，待配置密钥部署）
+- [x] Claude Code Skill 封装
 
 ## 快速开始
 
@@ -76,6 +76,33 @@ python -m unittest discover -s tests -v
 - 保守假设：Robotaxi 单车日均订单 = 传统车单车日均订单。
 - 原始明细不随仓库分发；`scripts/build_cities.py` 可基于本地数据重新聚合。
 
+## AI 简报（可选）
+
+网页默认使用本地文字摘要。配置 `worker/` 后可启用 DeepSeek 简报：
+数字仍由代码计算，LLM 只负责改写，输出会做数字回查，失败自动回退。
+
+```bash
+cd worker
+npx wrangler login
+npx wrangler deploy
+npx wrangler secret put DEEPSEEK_API_KEY
+```
+
+部署后把地址填入 `web/config.js` 的 `apiBase`，或本地用 `?api=http://localhost:8787` 测试。
+详见 [`worker/README.md`](worker/README.md)。
+
+## Claude Code Skill
+
+`skills/robotaxi-scenario/` 提供一句话生成城市情景报告的能力：
+
+```bash
+python skills/robotaxi-scenario/scripts/analyze.py --list
+python skills/robotaxi-scenario/scripts/analyze.py --city wuhan --pressures 0.05 0.1 0.2
+```
+
+把该目录放到 `~/.claude/skills/`（或设置 `ROBOTAXI_REPO`）后，Claude Code 可在对话中直接调用。
+详见 [`skills/robotaxi-scenario/SKILL.md`](skills/robotaxi-scenario/SKILL.md)。
+
 ## 模型
 
 ```
@@ -103,6 +130,8 @@ robotaxi-fleet-sandbox/
 │  └─ cli.py           # 命令行
 ├─ web/                # 静态网页（model.js / app.js / styles.css）
 ├─ index.html          # 网页入口
+├─ worker/             # Cloudflare Worker + DeepSeek 代理
+├─ skills/             # Claude Code Skill
 ├─ data/cities.json    # 城市预设（聚合指标）
 ├─ scripts/            # 数据聚合脚本
 ├─ tests/              # 单元测试
@@ -125,9 +154,9 @@ python scripts/build_cities.py --source "你的原始数据目录"
 
 ## 路线图
 
-1. **网页**：城市选择 + 滑块 + 情景柱状图 + 敏感性热力图，部署到 GitHub Pages。
-2. **AI 简报**：Cloudflare Worker 代理 + DeepSeek，数字由代码算，LLM 只负责叙述，带数字回查与降级。
-3. **Skill**：`SKILL.md` + 脚本，本地一句话生成分析报告。
+1. [x] **网页**：城市选择 + 滑块 + 情景柱状图 + 敏感性热力图，已部署到 GitHub Pages。
+2. [x] **AI 简报**：Worker 代码与前端接入完成，数字由代码算、LLM 只叙述、带数字回查与降级；待配置 DeepSeek key 与 Cloudflare 部署。
+3. [x] **Skill**：`SKILL.md` + 脚本，本地一句话生成分析报告。
 
 ## 免责声明
 

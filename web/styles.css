@@ -159,6 +159,7 @@ a:hover { text-decoration: underline; }
   color: #fff;
 }
 .btn.primary:hover { filter: brightness(1.06); color: #fff; }
+.btn:disabled { opacity: 0.6; cursor: wait; }
 .hint { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
 
 /* KPI cards */
@@ -263,6 +264,8 @@ table#scenarioTable { width: 100%; border-collapse: collapse; font-size: 13.5px;
 #scenarioTable tr:last-child td { border-bottom: none; }
 
 /* Memo */
+.memo-actions { display: flex; align-items: center; gap: 10px; }
+.memo-status { font-size: 12px; color: var(--muted); }
 .memo-panel pre {
   margin: 0;
   white-space: pre-wrap;

@@ -1,0 +1,4 @@
+# 复制为 .dev.vars 后填入自己的 key（.dev.vars 已被 git 忽略）
+DEEPSEEK_API_KEY=sk-your-key
+DEEPSEEK_MODEL=deepseek-chat
+ALLOWED_ORIGINS=http://localhost:8123
