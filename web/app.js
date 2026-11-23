@@ -241,9 +241,16 @@
     const pad = { l: 58, r: 16, t: 24, b: 40 };
     const plotW = w - pad.l - pad.r;
     const plotH = h - pad.t - pad.b;
-    const max = Math.max.apply(null, results.map((r) => r.robotaxi_needed).concat([1]));
-    const yMax = max * 1.15;
-    const ticks = 4;
+    const FIXED_MAX = 30000;
+    const dataMax = Math.max.apply(
+      null,
+      results.map((r) => r.robotaxi_needed).concat([1])
+    );
+    const yMax =
+      dataMax <= FIXED_MAX ? FIXED_MAX : Math.ceil(dataMax / 10000) * 10000;
+    const ticks = yMax <= FIXED_MAX ? 3 : 4;
+    const scaleEl = $("barScale");
+    if (scaleEl) scaleEl.textContent = "固定参照 0–" + fmtInt(yMax) + " 辆";
     const parts = [];
 
     for (let i = 0; i <= ticks; i++) {
