@@ -47,7 +47,22 @@ OPTIONS /api/memo    CORS 预检
 
 ## 部署
 
-### 方式 A：wrangler CLI（推荐）
+### 方式 A：Dashboard 单文件（无需 token / CLI，最稳）
+
+1. 打开 https://dash.cloudflare.com → **Workers & Pages** → **Create** → **Worker**；
+2. 命名 `robotaxi-memo` → **Deploy**；
+3. 点 **Edit code**，全选删除，粘贴 `worker/dist/worker.js` 的全部内容 → **Deploy**；
+4. **Settings → Variables and Secrets → Add**：
+   - 名称 `DEEPSEEK_API_KEY`，类型 **Secret**，值填 DeepSeek key；
+5. 复制 workers.dev 地址（形如 `https://robotaxi-memo.<子域>.workers.dev`）。
+
+源码改动后重新生成单文件：
+
+```bash
+python scripts/bundle_worker.py
+```
+
+### 方式 B：wrangler CLI
 
 ```bash
 cd worker
@@ -58,7 +73,7 @@ npx wrangler secret put DEEPSEEK_API_KEY   # 粘贴 DeepSeek key
 
 `wrangler deploy` 会输出形如 `https://robotaxi-memo.<你的子域>.workers.dev` 的地址。
 
-### 方式 B：Dashboard
+### 方式 C：Dashboard 多文件
 
 1. Cloudflare Dashboard → Workers & Pages → Create → Worker；
 2. 把 `src/memo.js` 与 `src/index.js` 放入编辑器（或改用 CLI）；

@@ -24,3 +24,5 @@ jobs:
         run: node tests/web_model.test.js
       - name: Worker memo tests
         run: node worker/test/memo.test.js
+      - name: Worker bundle tests
+        run: node worker/test/bundle.test.js
