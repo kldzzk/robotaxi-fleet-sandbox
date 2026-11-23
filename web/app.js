@@ -164,7 +164,8 @@
         const cls = ["kpi", "kpi p2", "kpi p3"][i] || "kpi";
         return (
           '<div class="' + cls + '">' +
-          '<div class="kpi-pressure">情景压力 ' + fmtPct(r.pressure * 100) + "</div>" +
+          '<div class="kpi-pressure"><svg class="kpi-car" aria-hidden="true"><use href="#icon-robotaxi"></use></svg> 情景压力 ' +
+            fmtPct(r.pressure * 100) + "</div>" +
           '<div class="kpi-value">' + fmtInt(r.robotaxi_needed) + "<small>辆</small></div>" +
           '<div class="kpi-sub">传统车队剩余 <b>' + fmtInt(r.traditional_fleet_after) + "</b> 辆</div>" +
           '<div class="kpi-sub">传统车队降幅 <b>' + fmtPct(r.traditional_reduction_pct) + "</b></div>" +
@@ -196,7 +197,7 @@
       );
     }
 
-    const BAR_COLORS = ["#4F7A6B", "#C4664A", "#C39A2B"];
+    const BAR_COLORS = ["#5F7D54", "#C4664A", "#C39A2B"];
     const band = plotW / results.length;
     results.forEach(function (r, i) {
       const bw = band * 0.5;
@@ -343,7 +344,7 @@
     if (!state.last) return "";
     const s = state.last;
     const lines = [];
-    lines.push("【" + s.preset.name + " · Robotaxi 车队规模情景测算】");
+    lines.push("【" + s.preset.name + "｜Robotaxi 车队规模情景测算】");
     lines.push(
       "以日均订单 " + fmtInt(s.inputs.base_daily_orders) + " 单、传统车队 " +
       fmtInt(s.inputs.traditional_fleet) + " 辆、单车日均订单 " +
@@ -351,7 +352,7 @@
     );
     s.results.forEach(function (r) {
       lines.push(
-        "· 订单压力 " + fmtPct(r.pressure * 100) + "：需新增 Robotaxi " +
+        "— 订单压力 " + fmtPct(r.pressure * 100) + "：需新增 Robotaxi " +
         fmtInt(r.robotaxi_needed) + " 辆；传统车队剩余 " +
         fmtInt(r.traditional_fleet_after) + " 辆，降幅 " +
         fmtPct(r.traditional_reduction_pct) + "。"
@@ -416,7 +417,7 @@
       if (data && data.fallback) {
         status.textContent = "AI 暂不可用，已回退本地摘要";
       } else {
-        status.textContent = "AI 简报 · " + (data.model || "DeepSeek");
+        status.textContent = "AI 简报｜" + (data.model || "DeepSeek");
       }
     } catch (err) {
       status.textContent = "AI 服务不可用，已回退本地摘要";

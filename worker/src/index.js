@@ -180,8 +180,9 @@ export default {
         env,
         buildMessages(payload, draft)
       );
+      const cleaned = text.replace(/·/g, "，").replace(/，{2,}/g, "，");
       const allowed = buildAllowedNumbers(payload);
-      const check = validateNumbers(text, allowed);
+      const check = validateNumbers(cleaned, allowed);
       if (!check.ok) {
         return json(
           {
@@ -198,7 +199,7 @@ export default {
 
       memoCache.set(cacheKey, {
         expires: Date.now() + CACHE_TTL,
-        memo: text,
+        memo: cleaned,
         model,
       });
       if (memoCache.size > 200) {
@@ -207,7 +208,7 @@ export default {
           if (value.expires <= now) memoCache.delete(key);
         }
       }
-      return json({ memo: text, model, fallback: false }, 200, cors);
+      return json({ memo: cleaned, model, fallback: false }, 200, cors);
     } catch (err) {
       return json(
         {

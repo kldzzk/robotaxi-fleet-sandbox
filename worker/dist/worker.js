@@ -41,7 +41,7 @@ function validatePayload(payload) {
 function buildDraft(payload) {
   const inputs = payload.inputs;
   const lines = [];
-  lines.push("【" + payload.city + " · Robotaxi 车队规模情景测算】");
+  lines.push("【" + payload.city + "｜Robotaxi 车队规模情景测算】");
   lines.push(
     "以日均订单 " +
       fmtInt(inputs.base_daily_orders) +
@@ -53,7 +53,7 @@ function buildDraft(payload) {
   );
   for (const s of payload.scenarios) {
     lines.push(
-      "· 订单压力 " +
+      "— 订单压力 " +
         fmtPct(Number(s.pressure) * 100) +
         "：需新增 Robotaxi " +
         fmtInt(s.robotaxi_needed) +
@@ -149,7 +149,8 @@ function buildMessages(payload, draft) {
     "1. 只能使用草稿中已经出现的数字，绝不新增、修改或推测任何数字；",
     "2. 不要给出投资建议，也不要下“应该入局”的结论；",
     "3. 明确这是情景测算，并指出关键假设与局限；",
-    "4. 输出四段：结论摘要、关键数字、驱动因素、风险与局限；每段一句话或短段落，不使用 Markdown 表格。",
+    "4. 输出四段：结论摘要、关键数字、驱动因素、风险与局限；每段一句话或短段落，不使用 Markdown 表格；",
+    "5. 不要使用中点符号（·），用逗号或分号替代。",
   ].join("\n");
 
   return [
@@ -341,8 +342,9 @@ export default {
         env,
         buildMessages(payload, draft)
       );
+      const cleaned = text.replace(/·/g, "，").replace(/，{2,}/g, "，");
       const allowed = buildAllowedNumbers(payload);
-      const check = validateNumbers(text, allowed);
+      const check = validateNumbers(cleaned, allowed);
       if (!check.ok) {
         return json(
           {
@@ -359,7 +361,7 @@ export default {
 
       memoCache.set(cacheKey, {
         expires: Date.now() + CACHE_TTL,
-        memo: text,
+        memo: cleaned,
         model,
       });
       if (memoCache.size > 200) {
@@ -368,7 +370,7 @@ export default {
           if (value.expires <= now) memoCache.delete(key);
         }
       }
-      return json({ memo: text, model, fallback: false }, 200, cors);
+      return json({ memo: cleaned, model, fallback: false }, 200, cors);
     } catch (err) {
       return json(
         {

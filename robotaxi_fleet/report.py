@@ -68,7 +68,7 @@ def assumptions_block(preset: CityPreset, net_ratio: float) -> str:
 def to_markdown(analysis: Analysis, scoring_result: dict | None = None) -> str:
     preset = analysis.preset
     parts = [
-        f"# {preset.name} · Robotaxi 车队规模情景分析",
+        f"# {preset.name}｜Robotaxi 车队规模情景分析",
         "",
         "> 本报告是**情景计算**，不是预测，也不构成投资建议。结论依赖下列假设。",
         "",

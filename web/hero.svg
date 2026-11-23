@@ -19,7 +19,7 @@
   <path d="M28 262 C 88 218, 118 178, 188 170 S 300 122, 372 92"
         stroke="#C4664A" stroke-width="2.4" stroke-dasharray="7 7" stroke-linecap="round"/>
   <path d="M44 76 C 112 100, 152 124, 232 148 S 338 206, 446 214"
-        stroke="#4F7A6B" stroke-width="2" stroke-linecap="round"/>
+        stroke="#5F7D54" stroke-width="2" stroke-linecap="round"/>
 
   <g fill="#FBF7EE" stroke="#2B2B2B" stroke-width="1.4">
     <circle cx="188" cy="170" r="5"/>
@@ -51,7 +51,7 @@
   <g font-family="Consolas, monospace" font-size="8.5" fill="#6E6A60" letter-spacing="0.8">
     <path d="M28 18h18" stroke="#C4664A" stroke-width="2.4" stroke-dasharray="5 5"/>
     <text x="52" y="21">robotaxi route</text>
-    <path d="M152 18h18" stroke="#4F7A6B" stroke-width="2"/>
+    <path d="M152 18h18" stroke="#5F7D54" stroke-width="2"/>
     <text x="176" y="21">order flow</text>
   </g>
 </svg>
